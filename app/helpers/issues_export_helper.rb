@@ -6,7 +6,7 @@ module IssuesExportHelper
           newcsv << row.fields + [t(:label_history)]
         else
           newcsv << row.fields + Issue.find(row.fields.first).journals.map do |j|
-            j.user.name + "\n" + j.details.map {|d| show_detail(d, true)}.join("\n") + "\n" + (j.notes.nil? ? '' : j.notes)
+            j.user.name + ' (' + format_time(j.created_on) + ')' + "\n" + j.details.map {|d| show_detail(d, true)}.join("\n") + "\n" + (j.notes.nil? ? '' : j.notes)
           end
         end
       end
