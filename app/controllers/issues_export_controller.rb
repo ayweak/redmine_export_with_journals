@@ -4,7 +4,7 @@ class IssuesExportController < ApplicationController
   include IssuesExportHelper
   helper :journals
   helper :projects
-  include ProjectsHelper   
+  include ProjectsHelper
   helper :custom_fields
   include CustomFieldsHelper
   helper :issue_relations
