@@ -1,4 +1,9 @@
 # English strings go here for Rails i18n
 en:
-  label_export_with_journals: "export CSV (with history)"
-
+  label_export_with_journals: "Export CSV (with history)"
+  label_export_with_journals_to_single_cell: "Single Cell"
+  label_export_with_journals_to_multiple_cells: "Multiple Cells"
+  label_export_with_journals_order_asc: "Ascending"
+  label_export_with_journals_order_desc: "Descending"
+  label_export_with_journals_limit: "Histories Export Limit"
+  label_export_with_journals_excel_limit: "Consider Excel Limit"
