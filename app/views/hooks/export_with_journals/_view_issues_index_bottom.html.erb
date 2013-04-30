@@ -13,21 +13,30 @@
   <p>
     <label><%= check_box_tag 'description', '1', @query.has_column?(:description) %> <%= l(:field_description) %></label>
   </p>
-  <p>
-    <label><%= check_box_tag 'history', '1', true %> <%= l(:label_history) %></label><br />
-    <label><%= radio_button_tag 'single_cell', 'single', true %> <%= l(:label_export_with_journals_to_single_cell) %></label>
-    <label><%= radio_button_tag 'single_cell', '' %> <%= l(:label_export_with_journals_to_multiple_cells) %></label><br />
-    <label><%= radio_button_tag 'order', '' %> <%= l(:label_export_with_journals_order_asc) %></label>
-    <label><%= radio_button_tag 'order', 'desc', true %> <%= l(:label_export_with_journals_order_desc) %></label><br />
-    <%= l(:label_export_with_journals_limit) %> <%= text_field_tag 'journals_limit', nil, :size => 5 %><br />
-    <label><%= check_box_tag 'excel_limit', '1' %> <%= l(:label_export_with_journals_excel_limit) %></label>
-    <%#
-       Excel limit: Total number of characters that a cell can contain 32,767 characters
-       Excel 2003: http://office.microsoft.com/en-us/excel-help/excel-specifications-and-limits-HP005199291.aspx
-       Excel 2007: http://office.microsoft.com/en-us/excel-help/excel-specifications-and-limits-HP010073849.aspx
-       Excel 2010: http://office.microsoft.com/en-us/excel-help/excel-specifications-and-limits-HP010342495.aspx
-    %>
-  </p>
+  <%= field_set_tag l(:label_history) do %>
+  <ul>
+    <li>
+      <label><%= radio_button_tag 'single_cell', 'single', true %> <%= l(:label_export_with_journals_to_single_cell) %></label>
+      <label><%= radio_button_tag 'single_cell', '' %> <%= l(:label_export_with_journals_to_multiple_cells) %></label>
+    </li>
+    <li>
+      <label><%= radio_button_tag 'order', '' %> <%= l(:label_export_with_journals_order_asc) %></label>
+      <label><%= radio_button_tag 'order', 'desc', true %> <%= l(:label_export_with_journals_order_desc) %></label>
+    </li>
+    <li>
+      <%= l(:label_export_with_journals_limit) %> <%= text_field_tag 'journals_limit', nil, :size => 5 %>
+    </li>
+    <li>
+      <label><%= check_box_tag 'excel_limit', '1' %> <%= l(:label_export_with_journals_excel_limit) %></label>
+      <%#
+         Excel limit: Total number of characters that a cell can contain 32,767 characters
+         Excel 2003: http://office.microsoft.com/en-us/excel-help/excel-specifications-and-limits-HP005199291.aspx
+         Excel 2007: http://office.microsoft.com/en-us/excel-help/excel-specifications-and-limits-HP010073849.aspx
+         Excel 2010: http://office.microsoft.com/en-us/excel-help/excel-specifications-and-limits-HP010342495.aspx
+       %>
+    </li>
+  </ul>
+  <% end %>
   <p class="buttons">
     <%= submit_tag l(:button_export), :name => nil, :onclick => 'hideModal(this);' %>
     <%= submit_tag l(:button_cancel), :name => nil, :onclick => 'hideModal(this);', :type => 'button' %>
