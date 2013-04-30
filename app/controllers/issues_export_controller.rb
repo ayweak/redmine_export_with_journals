@@ -40,7 +40,7 @@ class IssuesExportController < ApplicationController
       else
         csv = issues_to_csv(@issues, @project, @query, params)
       end
-      send_data(add_journals(csv), :filename => 'export.csv', :type => 'text/csv')
+      send_data(add_journals(csv, @query, params), :filename => 'export.csv', :type => 'text/csv')
     end
   end
 end
