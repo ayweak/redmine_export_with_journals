@@ -1,3 +1,9 @@
 # English strings go here for Rails i18n
 ja:
   label_export_with_journals: "CSV出力(履歴付き)"
+  label_export_with_journals_to_single_cell: "単一セル"
+  label_export_with_journals_to_multiple_cells: "複数セル"
+  label_export_with_journals_order_asc: "昇順"
+  label_export_with_journals_order_desc: "降順"
+  label_export_with_journals_limit: "エクスポートする履歴数の上限"
+  label_export_with_journals_excel_limit: "Excelの制限を考慮"
