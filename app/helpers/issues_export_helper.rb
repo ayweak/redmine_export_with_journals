@@ -11,22 +11,17 @@ module IssuesExportHelper
           journals = Issue.find(row.fields.first).journals
           journals = journals.order('id DESC') if options[:order] == 'desc'
           journals = journals.limit(options[:limit].to_i) if options[:limit].to_i > 0
-          if options[:single_cell] == 'single'
-            histories = journals.map do |j|
-              j.user.name + ' (' + format_time(j.created_on) + ')' + "\n" +
-                (j.details.empty? ? "\n" : "\n" + j.details.reduce('') {|s, d| s += '* ' + show_detail(d, true) + "\n"} + "\n") +
-                (j.notes.nil? ? '' : j.notes.gsub(/\r\n?/, "\n"))
-            end
-            histories = histories.join("\n" + DELIMITER_LINE + "\n")
-            histories = histories[0, EXCEL_LIMIT] if options[:excel_limit] && histories.length > EXCEL_LIMIT
-            newcsv << row.fields + [histories]
-          else
-            newcsv << row.fields + journals.map do |j|
-              j.user.name + ' (' + format_time(j.created_on) + ')' + "\n" +
-                j.details.map {|d| show_detail(d, true)}.join("\n") + "\n" +
-                (j.notes.nil? ? '' : j.notes)
-            end
+
+          histories = journals.map do |j|
+            j.user.name + ' (' + format_time(j.created_on) + ')' + "\n" +
+              (j.details.empty? ? "\n" : "\n" + j.details.reduce('') {|s, d| s += '* ' + show_detail(d, true) + "\n"} + "\n") +
+              (j.notes.nil? ? '' : j.notes.gsub(/\r\n?/, "\n"))
           end
+
+          histories = [histories.join("\n" + DELIMITER_LINE + "\n")] if options[:single_cell] == 'single'
+          histories = histories.map {|h| h[0, EXCEL_LIMIT]} if options[:excel_limit]
+
+          newcsv << row.fields + histories
         end
       end
     end
