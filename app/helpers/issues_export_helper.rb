@@ -1,5 +1,6 @@
 module IssuesExportHelper
   DELIMITER_LINE = '=' * 5
+  EXCEL_LIMIT = 32767 - 16
 
   def add_journals(csv, query, options={})
     csv_with_journals = FCSV.generate do |newcsv|
@@ -7,15 +8,20 @@ module IssuesExportHelper
         if row.header_row?
           newcsv << row.fields + [t(:label_history)]
         else
+          journals = Issue.find(row.fields.first).journals
+          journals = journals.order('id DESC') if options[:order] == 'desc'
+          journals = journals.limit(options[:limit].to_i) if options[:limit].to_i > 0
           if options[:single_cell] == 'single'
-            histories = Issue.find(row.fields.first).journals.map do |j|
+            histories = journals.map do |j|
               j.user.name + ' (' + format_time(j.created_on) + ')' + "\n" +
                 (j.details.empty? ? "\n" : "\n" + j.details.reduce('') {|s, d| s += '* ' + show_detail(d, true) + "\n"} + "\n") +
                 (j.notes.nil? ? '' : j.notes.gsub(/\r\n?/, "\n"))
             end
-            newcsv << row.fields + [histories.join("\n" + DELIMITER_LINE + "\n")]
+            histories = histories.join("\n" + DELIMITER_LINE + "\n")
+            histories = histories[0, EXCEL_LIMIT] if options[:excel_limit] && histories.length > EXCEL_LIMIT
+            newcsv << row.fields + [histories]
           else
-            newcsv << row.fields + Issue.find(row.fields.first).journals.map do |j|
+            newcsv << row.fields + journals.map do |j|
               j.user.name + ' (' + format_time(j.created_on) + ')' + "\n" +
                 j.details.map {|d| show_detail(d, true)}.join("\n") + "\n" +
                 (j.notes.nil? ? '' : j.notes)
