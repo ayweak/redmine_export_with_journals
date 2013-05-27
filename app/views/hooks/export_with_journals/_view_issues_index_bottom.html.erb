@@ -5,7 +5,7 @@
 <div id="csv-export-with-journals-options" style="display: none;">
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
   <%= form_tag({:controller => 'issues_export', :action => 'export_with_journals'}, :method => :get, :id => 'csv-export-with-journals-form') do %>
-  <%= hidden_field_tag 'project', project %>
+  <%= hidden_field_tag 'project_id', project.identifier %>
   <p>
     <label><%= radio_button_tag 'columns', '', true %> <%= l(:description_selected_columns) %></label><br />
     <label><%= radio_button_tag 'columns', 'all' %> <%= l(:description_all_columns) %></label>
